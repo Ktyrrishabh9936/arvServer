@@ -1,0 +1,27 @@
+# Node modules directory
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+
+# Cache directories
+.cache/
+dist/
+
+# OS-specific files
+.DS_Store
+
+# IDE-specific files
+.idea/
+.vscode/
+
+# NPM lockfile
+package-lock.json
+
+# Others
+coverage/
