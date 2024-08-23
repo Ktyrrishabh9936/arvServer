@@ -19,7 +19,7 @@ const createBlog = async (req, res) => {
           });
       
           const blog = new Blog({
-            userID: '66c5b185bc91c5464d9c4406',
+            userID: user._id,
             headline: req.body.headline,
             subHeadline: req.body.subHeadline,
             content: req.body.content,

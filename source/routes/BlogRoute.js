@@ -11,6 +11,6 @@ const upload = multer({
                 }
         })
       });
-router.post('/createBlog',upload.single('coverImage'),blogController.createBlog);
+router.post('/createBlog',authenticate,upload.single('coverImage'),blogController.createBlog);
 
 module.exports = router;
