@@ -3,8 +3,7 @@ const { default: mongoose } = require("mongoose");
 
 
 const Connectdb = function(){
-        // mongoose.connect(process.env.mongoURL);
-        mongoose.connect('mongodb://127.0.0.1/Arevei');
+        mongoose.connect(process.env.mongoURL);
 var conn = mongoose.connection;
 conn.on('connected', function() {
     console.log(chalk.bgGreen('Mongo Database is connected successfully'));
