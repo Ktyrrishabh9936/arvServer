@@ -1,4 +1,5 @@
 const Blog = require('../models/BlogModel');
+const { findBlogByUserID, findBlogByBlogID } = require('../services/blogService');
 const cloudinary = require('cloudinary').v2;
 
 cloudinary.config({
@@ -8,7 +9,6 @@ cloudinary.config({
 });
 
 const createBlog = async (req, res) => {
-        console.log('Request body:', req.body);
       
         const user = req.user;
         const file = req.file.path;
@@ -34,7 +34,28 @@ const createBlog = async (req, res) => {
         }
       };
       
-
+      const getMyBlogs = async (req, res) => {
+        const user = req.user;
+        try {
+          const myblogs = await findBlogByUserID(user._id)
+          console.log(myblogs)
+          return res.status(200).send(myblogs);
+        } catch (error) {
+          console.error(error);
+          return res.status(500).send(error);
+        }
+      };
+      const findBlog = async (req, res) => {
+        try {
+          const blog = await findBlogByBlogID(req.params.id);
+          console.log(blog);
+          return res.status(200).send(blog);
+        } catch (error) {
+          console.error(error);
+          return res.status(500).send(error);
+        }
+      };
+      
 module.exports = {
-  createBlog,
+  createBlog,getMyBlogs,findBlog
 };
