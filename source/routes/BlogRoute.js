@@ -13,6 +13,7 @@ const upload = multer({
       });
 router.post('/createBlog',authenticate,upload.single('coverImage'),blogController.createBlog);
 router.get('/getMyBlogs',authenticate,blogController.getMyBlogs);
-router.get('/:id',blogController.findBlog);
+router.get('/blogId/:id',blogController.findBlog);
+router.get('/all',blogController.latestBlogs);
 
 module.exports = router;

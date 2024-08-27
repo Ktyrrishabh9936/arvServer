@@ -1,5 +1,5 @@
 const Blog = require('../models/BlogModel');
-const { findBlogByUserID, findBlogByBlogID } = require('../services/blogService');
+const { findBlogByUserID, findBlogByBlogID, findlatestBlog } = require('../services/blogService');
 const cloudinary = require('cloudinary').v2;
 
 cloudinary.config({
@@ -19,7 +19,7 @@ const createBlog = async (req, res) => {
           });
       
           const blog = new Blog({
-            userID: user._id,
+            user: user._id,
             headline: req.body.headline,
             subHeadline: req.body.subHeadline,
             content: req.body.content,
@@ -55,7 +55,22 @@ const createBlog = async (req, res) => {
           return res.status(500).send(error);
         }
       };
-      
+      const latestBlogs = async(req,res)=>{
+        try {
+            // Find the latest product by sorting createdAt in descending order
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+        // Fetch products with pagination and sorting by createdAt in descending order
+        const latestBlog = await Blog.find().sort({ createdAt: -1 }).skip(skip).limit(limit);
+        // Get the total count of products for the frontend to know when to stop requesting more data
+        const total = await Blog.countDocuments();
+        res.json({ latestBlog, total });
+        } catch (error) {
+            console.error('Error fetching the latest product:', error);
+            res.status(500).json({ error: 'Server error' });
+        }
+    }
 module.exports = {
-  createBlog,getMyBlogs,findBlog
+  createBlog,getMyBlogs,findBlog,latestBlogs
 };
